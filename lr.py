@@ -27,9 +27,7 @@ class lr(object):
             else:
                 playlist.insertar(song)
 
-            print(titulo + " de " + artista + ". Directorio: " + direct)
-
-        archivo.close()
+        lista.close()
 
     def eliminarCancion(self, i, t):
         if self.contenido is None:
@@ -40,8 +38,19 @@ class lr(object):
     
 
     def obtenerLR(self):
-        return sequence
+        if self.contenido is None:
+            return False
+        else:
+            seq = self.contenido.deArbolASecuencia()
+
+
+
+        return seq
 
     
     def mostrarLR(self):
-        return
+        if self.contenido is None:
+            return False
+        else:
+            self.contenido.inorder()
+            return True
