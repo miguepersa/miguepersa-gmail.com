@@ -1,17 +1,19 @@
 from cancion import *
 
+# Clase Nodo utilizado como los bloques del Arbol de Canciones, contiene un campo para el dato (cancion), que almacena y los nodos a su izqueirda y derecha
 class Nodo(object):
-
+    # Constructor de la clase Nodo
     def __init__(self, data):
         self.dato = data
         self.left = None
         self.right = None
 
-
+    # Metodo para insertar en el Arbol de Canciones un nuevo objeto, el cual se espera que sea de tipo Cancion
     def insertar(self, elemento):
-        if self.dato == elemento:
+        if self.dato == elemento: # Se chequea primero si el elemento ya existe en el Arbol
             return False
-        elif (self.dato.interprete != elemento.interprete):
+
+        elif (self.dato.interprete != elemento.interprete): # De no ser asi, se procede a desplazarse por el arbol primero de acuerdo al interprete y considerando que este sea distinto a cualquier otro ya en la lista.
             if (self.dato.interprete > elemento.interprete):
                 if self.left:
                     return self.left.insertar(elemento)
@@ -24,7 +26,8 @@ class Nodo(object):
                 else:
                     self.right = Nodo(elemento)
                     return True
-        elif (self.dato.interprete == elemento.interprete):
+
+        elif (self.dato.interprete == elemento.interprete): # De hallarse el mismo interprete en la lista, entonces se procede a desplazarse por el arbol comparando los titulos
             if (self.dato.titulo > elemento.titulo):
                 if self.left:
                     return self.left.insertar(elemento)
@@ -38,7 +41,7 @@ class Nodo(object):
                     self.right = Nodo(elemento)
                     return True
 
-    
+    # Metodo para hallar un objeto deseado en el Arbol
     def buscar(self, data):
         if self.dato == data:
             return True
@@ -53,7 +56,7 @@ class Nodo(object):
             else:
                 return False
 
-
+    # Metodo para mostrar en pantalla un recorrido in-order del Arbol de Canciones
     def inorder(self):
         if self:
             if self.left:
@@ -62,29 +65,29 @@ class Nodo(object):
             if self.right:
                 self.right.inorder()
 
-    
+    # Metodo para hallar el objeto con los caracteres en su titulo y/o interprete mas alfabeticamente primerizos de la lista
     def minimo(self, subArbol):
         act = subArbol
         while act.left is not None:
             act = act.left
         return act.dato
 
-    
+    # Metodo para eliminar un objeto Cancion del Arbol de Canciones, mediante la obtencion de un titulo e interprete
     def eliminar(self, interprete, titulo):
-        if self.dato is None:
+        if self.dato is None: # Si el arbol esta vacio entonces se retorna False
             return self.dato
 
-        if interprete < self.dato.interprete:
+        if interprete < self.dato.interprete: # Primero se comienza a buscar el nodo deseado comparando el apartado Interprete
             self.left = self.left.eliminar(interprete, titulo)
         elif interprete > self.dato.interprete:
             self.right = self.right.eliminar(interprete, titulo)
-        else:
-            if titulo < self.dato.titulo:
+        else: 
+            if titulo < self.dato.titulo:  # Luego de esto se procede a comparar los titulos y asegurarse que si coincidan ambos interprete y titulo con el elemento que se desea eliminar
                 self.left = self.left.eliminar(interprete, titulo)
             elif titulo > self.dato.titulo:
                 self.right = self.right.eliminar(interprete, titulo)
             else:
-                if self.left is None:
+                if self.left is None:  # Cubrir lo casos donde el nodo tengo ningun o un hijo
                     temp = self.right
                     self.dato = None
                     return temp
@@ -104,7 +107,7 @@ class Nodo(object):
         
         return self.dato
 
-    
+    # Metodo para obtener de forma in-order los elementos de un Arbol de Canciones y anexarlos a una lista provista
     def secuenciar(self, lista):
         if self:
             if self.left:
@@ -113,12 +116,13 @@ class Nodo(object):
             if self.right:
                 self.right.inorder()
 
-            
+# Clase ArbolDeCanciones, un Arbol Binario de Busqueda cuyos elementos seran nodos que continen objetos de tipo cancion.            
 class arbolDeCanciones(object):
+    # Constructor de la clase arbolDeCanciones
     def __init__(self):
         self.raiz = None
     
-
+    # Metodo para insertar en el Arbol de Canciones un nuevo objeto, el cual se espera que sea de tipo Cancion
     def insertar(self, elemento):
         if self.raiz:
             return self.raiz.insertar(elemento)
@@ -126,33 +130,33 @@ class arbolDeCanciones(object):
             self.raiz = Nodo(elemento)
             return True
     
-
+    # Metodo para buscar en el arbol un dato dado
     def buscar(self, data):
         if self.raiz:
             return self.raiz.buscar(data)
         else:
             return False
 
-
+    # Metodo para imprimir en pantalla todos los objetos almacenados en el Arbol de Canciones en forma in-order
     def inorder(self):
         print("En-Orden: ")
         self.raiz.inorder()
 
-
+    # Metodo para hallar el elemento mas a la izquierda de un arbol o subarbol dado
     def minimo(self, subArbol):
         act = subArbol
         while act.left is not None:
             act = act.left
         return act.dato
 
-
+    # Metodo para hallar el elemento mas a la derecha de un arbol o subarbol dado
     def maximo(self, subArbol):
         act = subArbol
         while act.right is not None:
             act = act.right
         return act.dato
 
-    
+    # Metodo para eliminar una cancion dada por su titulo e interprete del Arbol de Canciones
     def eliminar(self, interprete, titulo):
         print("Se procedera a eliminar la cancion " + str(titulo) + " del artista " + str(interprete) + " si existe en la lista de reproduccion.")
         if self.raiz is None:
@@ -160,7 +164,7 @@ class arbolDeCanciones(object):
         else:
             return self.raiz.eliminar(interprete, titulo)
 
-    
+    # Metodo para anexar los elementos de tipo cancion del Arbol de Canciones a una lista
     def deArbolASecuencia(self):
         lista = []
         if self.raiz is None:
