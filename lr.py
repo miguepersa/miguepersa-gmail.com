@@ -2,13 +2,14 @@ from reproductor import *
 from cancion import *
 from arbolDeCanciones import *
 
-
+# Clase LR de Lista de Reproduccion
 class lr(object):
-
+    # Contructor de la clase LR
     def __init__(self):
         self.contenido = None
 
-
+    # Metodo para obtener el nombre de un arhivo, leerlo y cargarlo, extraer la informacion por lineas del documento, crear una objeto playlist de la clase LR y añadirle
+    # objetos de tipo Cancion en base a los datos en el archivo de texto.
     def agregarLista(self, na):
         archivo = str(na)
         lista = open(archivo, "r")
@@ -29,6 +30,7 @@ class lr(object):
 
         lista.close()
 
+    # Metodo para eliminar una cancion del Arbol de Canciones
     def eliminarCancion(self, i, t):
         if self.contenido is None:
             return False
@@ -36,7 +38,7 @@ class lr(object):
             self.contenido.eliminar(i,t)
         return
     
-
+    # Metodo para generar una secuencia en orden a partir del Arbol de Canciones
     def obtenerLR(self):
         if self.contenido is None:
             return False
@@ -44,7 +46,7 @@ class lr(object):
             seq = self.contenido.deArbolASecuencia()
         return seq
 
-    
+    # Metodo para mostrar en pantalla todas los titulos e interpretes de todas las cancioens almacenadas en la Lista de Reproduccion
     def mostrarLR(self):
         if self.contenido is None:
             return False
